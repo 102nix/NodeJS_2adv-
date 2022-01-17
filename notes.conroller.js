@@ -19,9 +19,7 @@ async function addNote (title) {
 
 async function removeNotes (id) {
   const notes = await getNotes()
-  console.log(id) 
   const changedNotesArr = notes.filter(note => Number(note.id) !== id)
-  console.log(notes, changedNotesArr)
   await fs.writeFile(notesPath, JSON.stringify(changedNotesArr))
 }
 
