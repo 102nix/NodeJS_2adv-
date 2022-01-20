@@ -17,10 +17,21 @@ async function addNote (title) {
   console.log(chalk.bgGreen('Note was added'))
 }
 
-async function removeNotes (id) {
+async function removeNote (id) {
   const notes = await getNotes()
-  const changedNotesArr = notes.filter(note => Number(note.id) !== id)
+  const changedNotesArr = notes.filter(note => Number(note.id) !== Number(id))
   await fs.writeFile(notesPath, JSON.stringify(changedNotesArr))
+}
+
+async function updateNote (id, title) {
+  const notes = await getNotes()
+  const updatedNote = []
+  notes.forEach(note => {
+    console.log(note)
+    if (Number(note.id) === Number(id)) note = {...note, title}
+    updatedNote.push(note)
+  })
+  await fs.writeFile(notesPath, JSON.stringify(updatedNote))
 }
 
 async function getNotes () {
@@ -37,5 +48,5 @@ async function printNotes () {
 }
 
 module.exports = {
-  addNote, printNotes, removeNotes
+  addNote, getNotes, removeNote, updateNote
 }
